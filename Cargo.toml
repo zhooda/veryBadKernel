@@ -2,13 +2,14 @@
 name = "very_bad_kernel"
 version = "0.1.0"
 edition = "2018"
+authors = ["Zeeshan Hooda <zhooda@protonmail.com>"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 
 [profile.dev]
-panic = "abort"
+panic = "abort" # disable stack unwinding on panic
 
 [profile.release]
-panic = "abort"
+panic = "abort" # disable stack unwinding on panic

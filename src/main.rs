@@ -5,8 +5,6 @@ mod vga_buffer;
 
 use core::panic::PanicInfo;
 
-static HELLO: &[u8] = b"Hello, World!";
-
 // this function is called on panic
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {

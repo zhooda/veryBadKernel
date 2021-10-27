@@ -7,16 +7,22 @@
 use core::panic::PanicInfo;
 use very_bad_kernel::println;
 
+/// This is the entry point since the linker looks for
+/// a function `_start` by default
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    // this is the entry point since the linker looks for
-    // a function `_start` by default
 
-    println!("this is the result of `println!` => Hello, World{}", "!");
+    println!("INFO: Initializing very_bad_kernel{}", "!");
+
+    very_bad_kernel::init();
+
+    // invoke a breakpoint instruction
+    x86_64::instructions::interrupts::int3();
 
     #[cfg(test)]
     test_main();
 
+    println!("\nINFO: Resumed execution after an interrupt");
     loop {}
 }
 

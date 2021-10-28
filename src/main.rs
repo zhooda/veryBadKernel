@@ -16,13 +16,18 @@ pub extern "C" fn _start() -> ! {
 
     very_bad_kernel::init();
 
-    // invoke a breakpoint instruction
-    x86_64::instructions::interrupts::int3();
+    fn stack_overflow() {
+        stack_overflow(); // for each recursion, return address pushed to stack
+    }
+
+    // uncomment line to trigger stack overflow
+    stack_overflow();
 
     #[cfg(test)]
     test_main();
 
-    println!("\nINFO: Resumed execution after an interrupt");
+    println!("INFO: Resumed execution after double fault");
+
     loop {}
 }
 

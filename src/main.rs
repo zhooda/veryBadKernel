@@ -21,12 +21,20 @@ pub extern "C" fn _start() -> ! {
     }
 
     // uncomment line to trigger stack overflow
-    stack_overflow();
+    // stack_overflow();
+
+    println!("INFO: Resumed execution after fault");
+    println!("INFO: Enabling interrupt handling");
+
+    loop {
+        use very_bad_kernel::print;
+        print!("-");
+        for _ in 0..10000 {}
+    }
 
     #[cfg(test)]
     test_main();
 
-    println!("INFO: Resumed execution after double fault");
 
     loop {}
 }

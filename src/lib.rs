@@ -22,6 +22,12 @@ pub fn init() {
     x86_64::instructions::interrupts::enable();
 }
 
+pub fn hlt_loop() -> {
+    loop {
+        x86_64::instructions::hlt();
+    }
+}
+
 pub trait Testable {
     fn run(&self) -> ();
 }
@@ -80,11 +86,11 @@ pub extern "C" fn _start() -> ! {
 
     test_main();
 
-    loop {}
+    very_bad_kernel::hlt_loop();
 }
 
 #[cfg(test)] // use this panic handler on non test builds
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
-    test_panic_handler(info)
+    very_bad_kernel::hlt_loop();
 }

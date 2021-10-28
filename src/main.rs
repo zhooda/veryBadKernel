@@ -26,17 +26,17 @@ pub extern "C" fn _start() -> ! {
     println!("INFO: Resumed execution after fault");
     println!("INFO: Enabling interrupt handling");
 
-    loop {
-        use very_bad_kernel::print;
-        print!("-");
-        for _ in 0..10000 {}
-    }
+    // loop {
+    //     use very_bad_kernel::print;
+    //     print!("-");
+    //     for _ in 0..10000 {}
+    // }
 
     #[cfg(test)]
     test_main();
 
 
-    loop {}
+    very_bad_kernel::hlt_loop();
 }
 
 // this function is called on panic
@@ -44,7 +44,7 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    very_bad_kernel::hlt_loop();
 }
 
 #[cfg(test)] // use this panic handler on non test builds

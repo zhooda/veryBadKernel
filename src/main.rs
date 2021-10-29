@@ -26,11 +26,11 @@ pub extern "C" fn _start() -> ! {
     println!("INFO: Resumed execution after fault");
     println!("INFO: Enabling interrupt handling");
 
-    // loop {
-    //     use very_bad_kernel::print;
-    //     print!("-");
-    //     for _ in 0..10000 {}
-    // }
+    loop {
+        use very_bad_kernel::print;
+        print!("-");
+        for _ in 0..10000 {}
+    }
 
     #[cfg(test)]
     test_main();

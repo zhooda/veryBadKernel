@@ -12,7 +12,7 @@ use very_bad_kernel::println;
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
 
-    println!("INFO: Initializing very_bad_kernel{}", "!");
+    println!("INFO: Initializing very_bad_kernel v{}", "0.1.0");
 
     very_bad_kernel::init();
 
@@ -26,11 +26,11 @@ pub extern "C" fn _start() -> ! {
     println!("INFO: Resumed execution after fault");
     println!("INFO: Enabling interrupt handling");
 
-    loop {
-        use very_bad_kernel::print;
-        print!("-");
-        for _ in 0..10000 {}
-    }
+    // loop {
+    //     use very_bad_kernel::print;
+    //     print!("-");
+    //     for _ in 0..10000 {}
+    // }
 
     #[cfg(test)]
     test_main();
@@ -39,7 +39,7 @@ pub extern "C" fn _start() -> ! {
     very_bad_kernel::hlt_loop();
 }
 
-// this function is called on panic
+/// this function is called on panic
 #[cfg(not(test))] // use this panic handler on non test builds
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {

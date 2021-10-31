@@ -4,45 +4,41 @@
 #![test_runner(very_bad_kernel::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+use bootloader::{BootInfo, entry_point};
 use core::panic::PanicInfo;
 use very_bad_kernel::println;
 
-/// This is the entry point since the linker looks for
-/// a function `_start` by default
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(kernel_main);
+
+/// Type checked safe entry point
+fn kernel_main(boot_info: &'static BootInfo) -> ! {
+    use very_bad_kernel::{memory, memory::BootInfoFrameAllocator};
+    use x86_64::{
+        VirtAddr,
+        structures::paging::{Translate, Page},
+    };
 
     println!("INFO: Initializing very_bad_kernel v{}", "0.1.0");
-
     very_bad_kernel::init();
 
-    fn stack_overflow() {
-        stack_overflow(); // for each recursion, return address pushed to stack
-    }
+    let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
+    let mut mapper = unsafe { memory::init(phys_mem_offset) };
+    let mut frame_allocator = unsafe {
+        BootInfoFrameAllocator::init(&boot_info.memory_map)
+    };
 
-    // uncomment line to trigger stack overflow
-    // stack_overflow();
+    // map an unused page
+    let page = Page::containing_address(VirtAddr::new(0xdeadbeef000));
+    memory::create_example_mapping(page, &mut mapper, &mut frame_allocator);
 
-    println!("INFO: Resumed execution after fault");
-    println!("INFO: Enabling interrupt handling");
-
-    use x86_64::registers::control::Cr3;
-
-    let (l4_page_table, _) = Cr3::read();
-    println!("INFO: Level 4 page table at: {:?}", l4_page_table.start_address());
-    
-    let ptr = 0x205012 as *mut u32;
-
-    unsafe { let x = *ptr; }
-    println!("INFO: Read from pointer {:?}", ptr);
-
-    unsafe { *ptr = 31; }
-    println!("INFO: Wrote to pointer {:?}", ptr);
+    // write the string `New!` to the screen through the new mapping
+    let page_ptr: *mut u64 = page.start_address().as_mut_ptr();
+    unsafe { page_ptr.offset(400).write_volatile(0xf021_f077_f065_f04e) };
 
     #[cfg(test)]
     test_main();
 
-
+    println!("INFO: Halting CPU until interrupt");
     very_bad_kernel::hlt_loop();
 }
 

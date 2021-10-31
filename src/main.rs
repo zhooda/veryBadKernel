@@ -26,11 +26,18 @@ pub extern "C" fn _start() -> ! {
     println!("INFO: Resumed execution after fault");
     println!("INFO: Enabling interrupt handling");
 
-    // loop {
-    //     use very_bad_kernel::print;
-    //     print!("-");
-    //     for _ in 0..10000 {}
-    // }
+    use x86_64::registers::control::Cr3;
+
+    let (l4_page_table, _) = Cr3::read();
+    println!("INFO: Level 4 page table at: {:?}", l4_page_table.start_address());
+    
+    let ptr = 0x205012 as *mut u32;
+
+    unsafe { let x = *ptr; }
+    println!("INFO: Read from pointer {:?}", ptr);
+
+    unsafe { *ptr = 31; }
+    println!("INFO: Wrote to pointer {:?}", ptr);
 
     #[cfg(test)]
     test_main();

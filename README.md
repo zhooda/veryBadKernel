@@ -26,7 +26,7 @@ These instructions are for if you want to run the kernel without any of the fuss
 - An installation of qemu **OR**
 - A physical x86_64 machine and a USB drive
 
-Head over to the [releases]() section and download the boot image.
+Head over to the [releases](https://github.com/zhooda/veryBadKernel/releases) section and download the boot image.
 
 ### Running with QEMU
 

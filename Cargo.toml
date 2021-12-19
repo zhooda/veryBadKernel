@@ -10,7 +10,7 @@ authors = ["Zeeshan Hooda <zhooda@protonmail.com>"]
 bootloader = {version = "0.9.18", features = ["map_physical_memory"]}
 volatile = "0.2.6"
 spin = "0.5.2"
-x86_64 = "0.14.2"
+x86_64 = "0.14.7"
 uart_16550 = "0.2.0"
 pic8259 = "0.10.1"
 pc-keyboard = "0.5.0"

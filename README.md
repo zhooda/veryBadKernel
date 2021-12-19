@@ -16,7 +16,7 @@ These are all the current and planned features for this kernel. It is meant to b
 - [ ] Concurrency and multitasking
 
 
-![Kernel running in QEMU](media/qemu_demo.png)
+![Kernel running in QEMU](media/heap_alloc.png)
 
 # Running the Kernel
 

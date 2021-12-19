@@ -51,7 +51,7 @@ After the USB is flashed, you can plug it into the machine, and select the USB d
 ### Prerequisites
 - Cargo and Rustup
 
-To build and run the kernel from source, you will need a rust nightly version from 2021-12-13 or earlier:
+To build and run the kernel from source, you will need a rust nightly version from 2021-12-13 or earlier. This is because in the [inline asm stabilization PR]](https://github.com/rust-lang/rust/pull/91728), the location for the `asm!()` macro has changed and the `x86_64 crate has not been updated to support this change yet. This documentation will be irrelevant when that crate is updated.
 
 ```bash
 $ rustup toolchain install nightly-2021-12-13

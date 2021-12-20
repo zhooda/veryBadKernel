@@ -12,7 +12,7 @@ These are all the current and planned features for this kernel. It is meant to b
 - [x] Single and double fault handling
 - [x] Hardware interrupts (timer, keyboard, etc.)
 - [x] Memory paging
-- [ ] Heap allocation
+- [x] Heap allocation
 - [ ] Concurrency and multitasking
 
 
